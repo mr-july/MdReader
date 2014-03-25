@@ -26,8 +26,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int content_save=0x7f020001;
         public static final int file=0x7f020002;
         public static final int folder=0x7f020003;
-        public static final int ic_action_done=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
+        public static final int ic_action_discard=0x7f020004;
+        public static final int ic_action_done=0x7f020005;
+        public static final int ic_action_edit=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
     }
     public static final class id {
         public static final int btn_bold=0x7f080004;
@@ -37,20 +39,21 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int btn_scrollView=0x7f080001;
         public static final int btn_tab=0x7f080002;
         public static final int btn_url=0x7f080006;
-        public static final int cmenu_delete=0x7f080018;
         public static final int editTextArea=0x7f080000;
+        public static final int file_checkbox=0x7f080010;
         public static final int file_detail=0x7f08000f;
         public static final int file_name=0x7f08000e;
         public static final int icon_listitem=0x7f08000d;
         public static final int list=0x7f080008;
-        public static final int menu_about=0x7f080016;
-        public static final int menu_new=0x7f080013;
-        public static final int menu_newfolder=0x7f080014;
-        public static final int menu_refresh=0x7f080015;
-        public static final int menu_render=0x7f080011;
-        public static final int menu_save=0x7f080010;
-        public static final int menu_saveAs=0x7f080012;
-        public static final int menu_saveashtml=0x7f080017;
+        public static final int menu_about=0x7f080015;
+        public static final int menu_delete=0x7f080016;
+        public static final int menu_done=0x7f080011;
+        public static final int menu_edit=0x7f080017;
+        public static final int menu_new=0x7f080012;
+        public static final int menu_newfolder=0x7f080013;
+        public static final int menu_refresh=0x7f080014;
+        public static final int menu_save=0x7f080018;
+        public static final int menu_saveAs=0x7f080019;
         public static final int nofiles=0x7f080009;
         public static final int progressBar=0x7f08000c;
         public static final int scrollView=0x7f08000a;
@@ -65,40 +68,64 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class menu {
         public static final int activity_edit=0x7f070000;
         public static final int activity_main=0x7f070001;
-        public static final int activity_rendered=0x7f070002;
-        public static final int context_menu=0x7f070003;
+        public static final int activity_main_select=0x7f070002;
+        public static final int activity_rendered=0x7f070003;
     }
     public static final class string {
-        public static final int about_text=0x7f050003;
         public static final int app_name=0x7f050000;
-        public static final int btn_code=0x7f050010;
-        public static final int btn_tab=0x7f05000f;
-        public static final int delete_detail=0x7f050009;
+        public static final int b=0x7f05000f;
+        public static final int btn_code=0x7f05000d;
+        public static final int btn_tab=0x7f05000c;
+        public static final int cancel=0x7f05001b;
+        public static final int delete_confirmation=0x7f050013;
         public static final int delete_title=0x7f050008;
+        public static final int directory=0x7f05002a;
+        public static final int dowloaded_content_title=0x7f05001f;
+        public static final int enter_filename=0x7f050019;
+        public static final int enter_folder_name=0x7f05001c;
+        public static final int enter_url=0x7f05001e;
+        public static final int file_already_exists=0x7f05001a;
+        public static final int file_save_error=0x7f050023;
+        public static final int folder_already_exists=0x7f05001d;
+        public static final int generic_error_message=0x7f050016;
+        public static final int hash=0x7f050012;
+        public static final int i=0x7f050010;
+        public static final int images_read_error_message=0x7f050021;
+        public static final int images_read_error_title=0x7f050020;
+        public static final int last_modified=0x7f05002b;
+        public static final int link_text_hint=0x7f050028;
+        public static final int link_url_hint=0x7f050029;
         public static final int menu_about=0x7f050001;
-        public static final int menu_new=0x7f050006;
-        public static final int menu_newfolder=0x7f050011;
-        public static final int menu_quickRef=0x7f05000e;
-        public static final int menu_refresh=0x7f050005;
-        public static final int menu_render=0x7f050004;
-        public static final int menu_save=0x7f050007;
-        public static final int menu_saveAs=0x7f05000d;
-        public static final int menu_saveHTML=0x7f05000c;
-        public static final int title_activity_edit=0x7f050002;
-        public static final int title_activity_fullscreen=0x7f05000b;
+        public static final int menu_delete=0x7f050007;
+        public static final int menu_done=0x7f050002;
+        public static final int menu_edit=0x7f050006;
+        public static final int menu_new=0x7f050004;
+        public static final int menu_newfolder=0x7f05000e;
+        public static final int menu_refresh=0x7f050003;
+        public static final int menu_save=0x7f050005;
+        public static final int menu_saveAs=0x7f05000b;
+        public static final int no=0x7f050015;
+        public static final int ok=0x7f050018;
+        public static final int overwrite=0x7f050027;
+        public static final int press_back_once_more_to_exit=0x7f050017;
+        public static final int save_changes_message=0x7f050025;
+        public static final int save_changes_title=0x7f050024;
+        public static final int saved_as_info=0x7f050022;
+        public static final int title_activity_edit=0x7f050009;
         public static final int title_activity_rendered=0x7f05000a;
+        public static final int untitled_title=0x7f050026;
+        public static final int url=0x7f050011;
+        public static final int yes=0x7f050014;
     }
     public static final class style {
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
-
         
 
         Base application theme for API 14+. This theme completely replaces
@@ -144,7 +171,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:buttonBarButtonStyle
+          @attr name com.npaul.mdreader:buttonBarButtonStyle
         */
         public static final int ButtonBarContainerTheme_buttonBarButtonStyle = 1;
         /**
@@ -154,7 +181,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:buttonBarStyle
+          @attr name com.npaul.mdreader:buttonBarStyle
         */
         public static final int ButtonBarContainerTheme_buttonBarStyle = 0;
     };
