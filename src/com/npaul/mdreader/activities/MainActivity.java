@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.Stack;
 
 import android.app.Activity;
@@ -59,12 +60,19 @@ import com.npaul.mdreader.util.FileStringComparator;
  */
 public class MainActivity extends Activity {
 
+    /** RegExp pattern for files, which should be visible in the file browser */
+    public static final String LISTED_FILE_PATTERN_STRING = "^.+\\.(md|txt)$";
+    
+    /** compiled version of @see LISTED_FILE_PATTERN_STRING */
+    public final static Pattern listedFilePattern = Pattern.
+      compile (LISTED_FILE_PATTERN_STRING);
+    
     final Context context = this;
     private List<File> files;
     private ListView lv;
 
     private String currentDirectory;
-    private Stack<String> dirHistory = new Stack<String>();
+    private final Stack<String> dirHistory = new Stack<String>();
     private int index;
     private FileListAdapter adapter;
 
@@ -104,12 +112,14 @@ public class MainActivity extends Activity {
         File f = new File(DirectoryPath);
 
         f.mkdirs();
-        File[] files = f.listFiles();
-        for (int i = 0; i < files.length; i++) {
-            File file = files[i];
-            if (!file.isHidden() && (!file.isFile() || file.getName().endsWith(".md"))) {
-                fileArray.add(files[i]);
-            }
+        
+        for (File file : f.listFiles())
+        {
+          if (!file.isHidden() && (file.isDirectory () ||
+            listedFilePattern.matcher (file.getName()).matches ()))
+          {
+            fileArray.add (file);
+          }
         }
 
         Collections.sort(fileArray, new FileStringComparator());
@@ -170,9 +180,11 @@ public class MainActivity extends Activity {
         // set the current directory
         currentDirectory = Environment.getExternalStorageDirectory().getPath();
 
-        // make a directory named mdreader if it doesn't already exist
+        // make a directory named Notes if it doesn't already exist
+        // TODO FIXME: initial app directory should be configurable or
+        // the last used directory should be used on start
         File mdReaderDir = new File(Environment.getExternalStorageDirectory()
-                + "/mdreader/");
+                + "/Notes/");
         if (!mdReaderDir.exists()) {
             mdReaderDir.mkdir();
         }
