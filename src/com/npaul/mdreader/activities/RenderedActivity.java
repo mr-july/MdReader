@@ -107,6 +107,8 @@ public class RenderedActivity extends Activity {
             ws.setMinimumFontSize(10);
             ws.setJavaScriptEnabled(true);
             ws.setBuiltInZoomControls(true);
+            // TODO FIXME: display of ZoomControls should be made optional
+            ws.setDisplayZoomControls (false);
 
             String resultString = "";
             if (result != null)
@@ -114,7 +116,7 @@ public class RenderedActivity extends Activity {
 
             try {
                 // get the file path
-                String dir = getIntent().getData().getPath().toString();
+                String dir = getIntent().getData().getPath();
                 int i = dir.length() - 1;
                 while (dir.charAt(i) != '/') {
                     i--;
@@ -150,7 +152,7 @@ public class RenderedActivity extends Activity {
 
         private String getDocTitle(CharSequence result) {
 
-            Matcher matcher = Pattern.compile("<h1[^<]*>([^<]+)</h1>").matcher(result);
+            Matcher matcher = Pattern.compile("<h1[^>]*>(.+?)</h1>").matcher(result);
             if (matcher.find()) {
                 String title = matcher.group(1).trim();
                 if (!title.isEmpty())
@@ -348,9 +350,7 @@ public class RenderedActivity extends Activity {
             }
             return result;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return null;
