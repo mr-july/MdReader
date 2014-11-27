@@ -15,7 +15,7 @@
  */
 package com.npaul.mdreader.util;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import com.github.rjeschke.txtmark.Processor;
 
@@ -27,10 +27,10 @@ import com.github.rjeschke.txtmark.Processor;
  */
 public class Formatter {
 
-    private Vector<Filter> filters;
+    private final ArrayList<Filter> filters;
 
     public Formatter() {
-        filters  = new Vector<Filter>();
+        filters  = new ArrayList<Filter>();
     }
 
     public CharSequence format(String markdown) {
