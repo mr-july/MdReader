@@ -97,7 +97,7 @@ public class FoldingFilter extends Filter {
 
     protected CharSequence includeJQuery(CharSequence in) {
         String include = "<script src=\"file:///android_asset/jquery-2.1.0.min.js\"></script>";
-        if (in.toString().indexOf(include) == -1)
+        if (!in.toString().contains (include))
             return appendToBody(in, include);
         return in;
     }
