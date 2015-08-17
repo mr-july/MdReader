@@ -368,7 +368,7 @@ public class RenderedActivity extends Activity {
 
         if (file == null) {
             input.setText(Environment.getExternalStorageDirectory().getPath()
-                    + "/mdreader/" + ".md");
+                    + "/Notes/" + ".md");
         } else {
             input.setText(file.getAbsolutePath());
         }
@@ -416,7 +416,7 @@ public class RenderedActivity extends Activity {
         try {
             FileOutputStream out = new FileOutputStream(fileToWrite);
             OutputStreamWriter outBuffer = new OutputStreamWriter(out);
-            outBuffer.append(text);
+            outBuffer.append(src);
             outBuffer.close();
             out.close();
         } catch (IOException e) {
