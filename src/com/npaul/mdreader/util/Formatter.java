@@ -17,7 +17,8 @@ package com.npaul.mdreader.util;
 
 import java.util.ArrayList;
 
-import com.github.rjeschke.txtmark.Processor;
+import com.commonsware.cwac.anddown.AndDown;
+
 
 /**
  * Formats the Markdown into HTML and adds some bits to make it more beautiful.
@@ -35,7 +36,17 @@ public class Formatter {
 
     public CharSequence format(String markdown) {
         long start = System.currentTimeMillis();
-        CharSequence out = Processor.process(markdown);
+
+        // TODO: make MarkDown extensions configurable
+        int ext = AndDown.Extensions.HOEDOWN_EXT_AUTOLINK |
+          AndDown.Extensions.HOEDOWN_EXT_FENCED_CODE |
+          AndDown.Extensions.HOEDOWN_EXT_FOOTNOTES |
+          AndDown.Extensions.HOEDOWN_EXT_HIGHLIGHT |
+          AndDown.Extensions.HOEDOWN_EXT_STRIKETHROUGH |
+          AndDown.Extensions.HOEDOWN_EXT_SUPERSCRIPT |
+          AndDown.Extensions.HOEDOWN_EXT_TABLES;
+
+        CharSequence out = AndDown.markdownToHtml (markdown, ext);
 
         // Apply the filters on the output.
         // Note that the order of the filters is important
