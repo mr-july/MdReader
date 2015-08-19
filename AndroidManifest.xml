@@ -26,6 +26,10 @@
       </intent-filter>
     </activity>
     <activity
+      android:name="com.npaul.mdreader.activities.PreferencesActivity"
+      android:label="@string/title_activity_preferences" >
+    </activity>
+    <activity
       android:name="com.npaul.mdreader.activities.EditActivity"
       android:label="@string/title_activity_edit" >
     </activity>

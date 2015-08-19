@@ -15,6 +15,7 @@
  */
 package com.npaul.mdreader.util;
 
+
 import java.util.ArrayList;
 
 import com.commonsware.cwac.anddown.AndDown;
@@ -26,40 +27,58 @@ import com.commonsware.cwac.anddown.AndDown;
  * @author Cedric Bosdonnat <cedric.bosdonnat@free.fr>
  *
  */
-public class Formatter {
+public class Formatter
+{
+  /**
+   * additional filters, applied to rendered HTML code
+   */
+  private final ArrayList<Filter> filters;
 
-    private final ArrayList<Filter> filters;
 
-    public Formatter() {
-        filters  = new ArrayList<Filter>();
+  /**
+   * default constructor
+   */
+  public Formatter ()
+  {
+    filters = new ArrayList<Filter> ();
+  }
+
+
+  /**
+   * Convert given MarkDown code to HTML
+   * 
+   * @param markdown      MarkDown code to be used
+   * @param mdExtensions  bit mask of MarkDown extensions, which should be used
+   * 
+   * @return              generated HTML code  
+   */
+  public CharSequence format (String markdown, int mdExtensions)
+  {
+    long start = System.currentTimeMillis ();
+
+    CharSequence out = AndDown.markdownToHtml (markdown, mdExtensions);
+
+    // Apply the filters on the output.
+    // Note that the order of the filters is important
+    for (Filter filter: filters)
+    {
+      out = filter.filter (out);
     }
 
-    public CharSequence format(String markdown) {
-        long start = System.currentTimeMillis();
+    long end = System.currentTimeMillis ();
 
-        // TODO: make MarkDown extensions configurable
-        int ext = AndDown.Extensions.HOEDOWN_EXT_AUTOLINK |
-          AndDown.Extensions.HOEDOWN_EXT_FENCED_CODE |
-          AndDown.Extensions.HOEDOWN_EXT_FOOTNOTES |
-          AndDown.Extensions.HOEDOWN_EXT_HIGHLIGHT |
-          AndDown.Extensions.HOEDOWN_EXT_STRIKETHROUGH |
-          AndDown.Extensions.HOEDOWN_EXT_SUPERSCRIPT |
-          AndDown.Extensions.HOEDOWN_EXT_TABLES;
+    System.out.println ("Rendering time (ms): " + (end - start));
+    return out;
+  }
 
-        CharSequence out = AndDown.markdownToHtml (markdown, ext);
 
-        // Apply the filters on the output.
-        // Note that the order of the filters is important
-        for (Filter filter : filters) {
-            out = filter.filter(out);
-        }
-        long end = System.currentTimeMillis();
-
-        System.out.println("Rendering time (ms): " + (end - start));
-        return out;
-    }
-
-    public void addFilter(Filter filter) {
-        filters.add(filter);
-    }
+  /**
+   * Add filter, which should be applied after MarkDown to HTML conversion
+   * 
+   * @param filter    filter to be applied
+   */
+  public void addFilter (Filter filter)
+  {
+    filters.add (filter);
+  }
 }

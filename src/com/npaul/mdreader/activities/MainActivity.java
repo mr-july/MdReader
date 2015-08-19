@@ -245,6 +245,11 @@ public class MainActivity extends Activity {
         // get the button that was pressed
         switch (item.getItemId()) {
 
+        // preferences
+        case R.id.menu_preferences:
+            showPreferences();
+            return true;
+          
         // about
         case R.id.menu_about:
             WebView wv = new WebView(context);
@@ -387,6 +392,14 @@ public class MainActivity extends Activity {
     public void onResume() {
         refreshFileList();
         super.onResume();
+    }
+
+    /**
+     * Show preferences activity
+     */
+    private void showPreferences() {
+        Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+        MainActivity.this.startActivity(intent);
     }
 
     /**

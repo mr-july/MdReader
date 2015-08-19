@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+  <PreferenceCategory
+    android:title="@string/preference_md_extensions">
+
+    <CheckBoxPreference
+      android:key="preference_use_md_extensions"
+      android:title="@string/preference_use_md_extensions_title"
+      android:summary="@string/preference_use_md_extensions_summary" />
+
+    <!-- The visual style of a child is defined by this styled theme attribute. -->
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_tables"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_tables_title"
+      android:summary="@string/preference_use_md_extension_tables_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_fenced_code"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_fenced_code_title"
+      android:summary="@string/preference_use_md_extension_fenced_code_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_footnotes"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_footnotes_title"
+      android:summary="@string/preference_use_md_extension_footnotes_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_autolink"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_autolink_title"
+      android:summary="@string/preference_use_md_extension_autolink_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_strikethrough"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_strikethrough_title"
+      android:summary="@string/preference_use_md_extension_strikethrough_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_underline"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_underline_title"
+      android:summary="@string/preference_use_md_extension_underline_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_highlight"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_highlight_title"
+      android:summary="@string/preference_use_md_extension_highlight_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_quote"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_quote_title"
+      android:summary="@string/preference_use_md_extension_quote_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_superscript"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_superscript_title"
+      android:summary="@string/preference_use_md_extension_superscript_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_math"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_math_title"
+      android:summary="@string/preference_use_md_extension_math_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_no_intra_emphasis"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_no_intra_emphasis_title"
+      android:summary="@string/preference_use_md_extension_no_intra_emphasis_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_space_headers"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_space_headers_title"
+      android:summary="@string/preference_use_md_extension_space_headers_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_math_explicit"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_math_explicit_title"
+      android:summary="@string/preference_use_md_extension_math_explicit_summary" />
+    <CheckBoxPreference
+      android:key="preference_use_md_extension_disable_indented_code"
+      android:dependency="preference_use_md_extensions"
+      android:layout="?android:attr/preferenceLayoutChild"
+      android:title="@string/preference_use_md_extension_disable_indented_code_title"
+      android:summary="@string/preference_use_md_extension_disable_indented_code_summary" />
+
+  </PreferenceCategory>
+
+<!--    <PreferenceCategory
+            android:title="@string/inline_preferences">
+
+        <CheckBoxPreference
+                android:key="checkbox_preference"
+                android:title="@string/title_checkbox_preference"
+                android:summary="@string/summary_checkbox_preference" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/dialog_based_preferences">
+
+        <EditTextPreference
+                android:key="edittext_preference"
+                android:title="@string/title_edittext_preference"
+                android:summary="@string/summary_edittext_preference"
+                android:dialogTitle="@string/dialog_title_edittext_preference" />
+
+        <ListPreference
+                android:key="list_preference"
+                android:title="@string/title_list_preference"
+                android:summary="@string/summary_list_preference"
+                android:entries="@array/entries_list_preference"
+                android:entryValues="@array/entryvalues_list_preference"
+                android:dialogTitle="@string/dialog_title_list_preference" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/launch_preferences">
+
+         This PreferenceScreen tag serves as a screen break (similar to page break
+             in word processing). Like for other preference types, we assign a key
+             here so it is able to save and restore its instance state.
+        <PreferenceScreen
+                android:key="screen_preference"
+                android:title="@string/title_screen_preference"
+                android:summary="@string/summary_screen_preference">
+
+             You can place more preferences here that will be shown on the next screen.
+
+            <CheckBoxPreference
+                    android:key="next_screen_checkbox_preference"
+                    android:title="@string/title_next_screen_toggle_preference"
+                    android:summary="@string/summary_next_screen_toggle_preference" />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+                android:title="@string/title_intent_preference"
+                android:summary="@string/summary_intent_preference">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://developer.android.com/" />
+
+        </PreferenceScreen>
+
+  </PreferenceCategory>-->
+
+</PreferenceScreen>

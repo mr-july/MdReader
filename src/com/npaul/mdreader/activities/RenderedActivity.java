@@ -40,6 +40,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,7 @@ import android.widget.Toast;
 import com.npaul.mdreader.R;
 import com.npaul.mdreader.util.FoldingFilter;
 import com.npaul.mdreader.util.Formatter;
+import com.npaul.mdreader.util.Preferences;
 import com.npaul.mdreader.util.StyleFilter;
 
 /**
@@ -76,12 +78,18 @@ public class RenderedActivity extends Activity {
          */
         @Override
         protected CharSequence doInBackground(Intent... params) {
-            text = readInData(params[0]);
+            Intent param = params[0];
+            text = readInData(param);
+
             Formatter formatter = new Formatter();
             formatter.addFilter(new StyleFilter());
             formatter.addFilter(new FoldingFilter());
 
-            src = formatter.format(text);
+            int mdExtensions = Preferences.getAllowedMarkDownExtensions (
+              PreferenceManager.getDefaultSharedPreferences (
+                RenderedActivity.this));
+
+            src = formatter.format(text, mdExtensions);
             return src;
         }
 
@@ -342,13 +350,13 @@ public class RenderedActivity extends Activity {
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(in));
-            String result = new String();
+            StringBuilder result = new StringBuilder();
             String line = reader.readLine();
             while (line != null) {
-                result += line + "\n";
+                result.append (line).append ("\n");
                 line = reader.readLine();
             }
-            return result;
+            return result.toString ();
         } catch (FileNotFoundException e) {
         } catch (IOException e) {
         }
