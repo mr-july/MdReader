@@ -28,26 +28,28 @@ import android.content.Context;
 public abstract class ContextDependentFilter extends Filter
 {
 
-    /**
-     * current context, which can be used e.g. to retrieve resources
-     */
-    protected Context context;
-    
-    
-    /**
-     * private constructor
-     */
-    private ContextDependentFilter () {
-      // empty (prevent creation without parameter)
-    }
-    
-    
-    /**
-     * constructor, populating the context
-     * 
-     * @param context     current context
-     */
-    public ContextDependentFilter (Context context) {
-        this.context = context;
-    }
+  /**
+   * current context, which can be used e.g. to retrieve resources
+   */
+  protected Context context;
+
+
+  /**
+   * private constructor
+   */
+  private ContextDependentFilter ()
+  {
+    // empty (prevent creation without parameter)
+  }
+
+
+  /**
+   * constructor, populating the context
+   *
+   * @param context current context
+   */
+  public ContextDependentFilter (Context context)
+  {
+    this.context = context;
+  }
 }
