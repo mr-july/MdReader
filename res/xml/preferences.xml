@@ -97,6 +97,19 @@
 
   </PreferenceCategory>
 
+  <PreferenceCategory
+    android:title="@string/preference_html">
+
+    <CheckBoxPreference
+      android:key="preference_html_use_extra_styles"
+      android:title="@string/preference_html_use_extra_styles_title"
+      android:summary="@string/preference_html_use_extra_styles_summary" />
+    <CheckBoxPreference
+      android:key="preference_html_use_folding"
+      android:title="@string/preference_html_use_folding_title"
+      android:summary="@string/preference_html_use_folding_summary" />
+
+  </PreferenceCategory>
 <!--    <PreferenceCategory
             android:title="@string/inline_preferences">
 

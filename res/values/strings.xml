@@ -83,4 +83,9 @@
   <string name="preference_use_md_extension_disable_indented_code_title">Disable Indented Code</string>
   <string name="preference_use_md_extension_disable_indented_code_summary">Support disable indented code</string>
 
+  <string name="preference_html">HTML preferences</string>
+  <string name="preference_html_use_extra_styles_title">Beautify</string>
+  <string name="preference_html_use_extra_styles_summary">Use extra CSS styles</string>
+  <string name="preference_html_use_folding_title">Folding</string>
+  <string name="preference_html_use_folding_summary">Make headers (H1) collapsible</string>
 </resources>
