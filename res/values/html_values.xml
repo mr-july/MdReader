@@ -1,11 +1,11 @@
 <resources>
 
   <string name="MAIN_JS" formatted="false">
-<![CDATA[<script src="file:///android_asset/jquery-2.1.0.min.js"></script>]]>
+<![CDATA[<script src=\"file:///android_asset/jquery-2.1.0.min.js\"></script>]]>
   </string>
   <string name="INLINE_CSS" formatted="false">
 <![CDATA[
-<style type="text/css">
+<style type=\"text/css\">
 p, li, pre, th, td {
   font-size: 16pt;
 }
@@ -40,31 +40,36 @@ blockquote, pre {
   margin-left: 10pt;
   padding-left: 10pt;
 }
+img {
+  max-width: 100%;
+}
 </style>]]>
   </string>
   <string name="FOLDING_JS" formatted="false">
 <![CDATA[
-<script type="text/javascript">
-$(\"h1\").click(function() {
-  var content = $(this).get(0).nextElementSibling;
-  $(content).slideToggle(\"fast\");
-  $(this).get(0).classList.toggle(\"open_section\");
+<script type=\"text/javascript\">
+$(function() {
+  $(\'h1\').click(function() {
+    var content = $(this).get(0).nextElementSibling;
+    $(content).slideToggle(\'fast\');
+    $(this).get(0).classList.toggle(\'open_section\');
+  });
+  $(\'.content\').hide();
 });
-$(\".content\").hide()
 </script>]]>
   </string>
   <string name="FOLDING_CSS" formatted="false">
 <![CDATA[
-<style type="text/css">
+<style type=\"text/css\">
 h1 {
-  background: url("file:///android_asset/show.png") no-repeat left center;
+  background: url(\'file:///android_asset/show.png\') no-repeat left center;
   border-bottom: 1px solid #E2E3E4;
   padding-left: 26px;
   position: relative;
   line-height: 1.3;
 }
 h1.open_section {
-  background: url("file:///android_asset/hide.png") no-repeat left center;
+  background: url(\'file:///android_asset/hide.png\') no-repeat left center;
 }
 </style>]]>
   </string>
