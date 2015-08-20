@@ -17,7 +17,6 @@ package com.npaul.mdreader.util;
 
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 
@@ -45,15 +44,29 @@ public class Formatter
 
 
   /**
-   * default constructor
+   * private constructor
+   */
+  private Formatter ()
+  {
+    filters = new ArrayList<Filter> ();
+  }
+
+
+  /**
+   * constructor, populating the context
+   *
+   * @param context current context
    */
   public Formatter (Context context)
   {
+    this ();
     this.context = context;
-    filters = new ArrayList<Filter> ();
-    
-    addFilter (new StyleFilter (context));
-    addFilter (new FoldingFilter (context));
+
+    if (Preferences.isExtraHtmlStylesAllowed (context))
+      addFilter (new StyleFilter (context));
+
+    if (Preferences.isHtmlHeaderFoldingAllowed (context))
+      addFilter (new FoldingFilter (context));
   }
 
 
@@ -61,7 +74,6 @@ public class Formatter
    * Convert given MarkDown code to HTML
    *
    * @param markdown     MarkDown code to be used
-   * @param mdExtensions bit mask of MarkDown extensions, which should be used
    *
    * @return generated HTML code
    */
@@ -74,11 +86,8 @@ public class Formatter
 
     // Apply the filters on the output.
     // Note that the order of the filters is important
-    for (Filter filter
-      : filters)
-    {
+    for (Filter filter: filters)
       out = filter.filter (out);
-    }
 
     long end = System.currentTimeMillis ();
 
@@ -92,7 +101,7 @@ public class Formatter
    *
    * @param filter filter to be applied
    */
-  public void addFilter (Filter filter)
+  private void addFilter (Filter filter)
   {
     filters.add (filter);
   }
@@ -106,7 +115,6 @@ public class Formatter
    */
   private int getAllowedMarkDownExtensions ()
   {
-    return Preferences.getAllowedMarkDownExtensions (
-      PreferenceManager.getDefaultSharedPreferences (context));
+    return Preferences.getAllowedMarkDownExtensions (context);
   }
 }

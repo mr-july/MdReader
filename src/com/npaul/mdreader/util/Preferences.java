@@ -16,8 +16,12 @@
 package com.npaul.mdreader.util;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.commonsware.cwac.anddown.AndDown;
+
 import java.util.HashMap;
 
 
@@ -72,44 +76,95 @@ public class Preferences
 
   /**
    * Gets MarkDown extensions, selected in preferences
-   * 
-   * @param sharedPref    application shared preferences
-   * 
-   * @return              bit mask of selected MarkDown extensions as used
-   *                      by the AndDown library
+   *
+   * @param context current context, which can be used e.g. to retrieve
+   *                resources or preferences
+   *
+   * @return bit mask of selected MarkDown extensions as used
+   *         by the AndDown library
    */
-  public static int getAllowedMarkDownExtensions (SharedPreferences sharedPref)
+  public static int getAllowedMarkDownExtensions (Context context)
   {
     int ext = 0;
 
-    for (AndDown.Extensions e
-      : AndDown.Extensions.values ())
-      ext = ext | getIntValueForBooleanPreference (sharedPref,
-        mdExt2Prefs.get (e), e.getValue ());
+    SharedPreferences sharedPref =
+      PreferenceManager.getDefaultSharedPreferences (context);
+
+    if (getBooleanPreferenceFromContext (context,
+      "preference_use_md_extensions"))
+      for (AndDown.Extensions e: AndDown.Extensions.values ())
+        ext = ext | getIntValueForBooleanPreference (sharedPref,
+          mdExt2Prefs.get (e), e.getValue ());
 
     return ext;
   }
 
 
   /**
+   * Check if using of extra HTML styles is selected in preferences
+   *
+   * @param context current context, which can be used e.g. to retrieve
+   *                resources or preferences
+   *
+   * @return {@code true} if using of extra HTML styles is
+   *         selected in preferences, {@code false} otherwise
+   */
+  public static boolean isExtraHtmlStylesAllowed (Context context)
+  {
+    return getBooleanPreferenceFromContext (context,
+      "preference_html_use_extra_styles");
+  }
+
+
+  /**
+   * Check if using of extra HTML styles is selected in preferences
+   *
+   * @param context current context, which can be used e.g. to retrieve
+   *                resources or preferences
+   *
+   * @return {@code true} if using of extra HTML styles is
+   *         selected in preferences, {@code false} otherwise
+   */
+  public static boolean isHtmlHeaderFoldingAllowed (Context context)
+  {
+    return getBooleanPreferenceFromContext (context,
+      "preference_html_use_folding");
+  }
+
+
+  /**
    * Checks if specified boolean preference is set ({@code true}), if so, then
    * returns specified value, otherwise 0.
-   * 
-   * @param sharedPref    application shared preferences
-   * @param prefName      preference name (key)
-   * @param value         value to be used if preference is set
-   * 
-   * @return              specified value if specified boolean preference
-   *                      is set, otherwise 0
+   *
+   * @param sharedPref application shared preferences
+   * @param prefName   preference name (key)
+   * @param value      value to be used if preference is set
+   *
+   * @return specified value if specified boolean preference
+   *         is set, otherwise 0
    */
-  public static int getIntValueForBooleanPreference (
+  private static int getIntValueForBooleanPreference (
     SharedPreferences sharedPref, String prefName, int value)
   {
-    int val = 0;
+    return sharedPref.getBoolean (prefName, false) ? value : 0;
+  }
 
-    if (sharedPref.getBoolean (prefName, false))
-      val = value;
 
-    return val;
+  /**
+   * Checks whether specified boolean preference is set in application
+   * preferences
+   *
+   * @param context    current context, which can be used e.g. to retrieve
+   *                   resources or preferences
+   * @param sharedPref application shared preferences
+   *
+   * @return {@code true} if specified boolean preference is set,
+   *         {@code false} otherwise.
+   */
+  private static boolean getBooleanPreferenceFromContext (Context context,
+    String prefName)
+  {
+    return PreferenceManager.getDefaultSharedPreferences (context).
+      getBoolean (prefName, false);
   }
 }
