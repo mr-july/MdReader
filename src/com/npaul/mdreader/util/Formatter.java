@@ -51,6 +51,9 @@ public class Formatter
   {
     this.context = context;
     filters = new ArrayList<Filter> ();
+    
+    addFilter (new StyleFilter (context));
+    addFilter (new FoldingFilter (context));
   }
 
 
@@ -97,9 +100,9 @@ public class Formatter
 
   /**
    * Gets MarkDown extensions, selected in preferences
-   * 
-   * @return              bit mask of selected MarkDown extensions as used
-   *                      by the AndDown library
+   *
+   * @return bit mask of selected MarkDown extensions as used
+   *         by the AndDown library
    */
   private int getAllowedMarkDownExtensions ()
   {

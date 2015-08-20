@@ -40,7 +40,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,10 +49,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.npaul.mdreader.R;
-import com.npaul.mdreader.util.FoldingFilter;
 import com.npaul.mdreader.util.Formatter;
-import com.npaul.mdreader.util.Preferences;
-import com.npaul.mdreader.util.StyleFilter;
 
 /**
  * An activity that renders markdown on screen using MarkdownJ -
@@ -82,10 +78,8 @@ public class RenderedActivity extends Activity {
             text = readInData(param);
 
             Formatter formatter = new Formatter(RenderedActivity.this);
-            formatter.addFilter(new StyleFilter(RenderedActivity.this));
-            formatter.addFilter(new FoldingFilter(RenderedActivity.this));
-
             src = formatter.format(text);
+            
             return src;
         }
 
