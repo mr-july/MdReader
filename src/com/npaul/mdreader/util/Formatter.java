@@ -16,6 +16,9 @@
 package com.npaul.mdreader.util;
 
 
+import android.content.Context;
+import android.preference.PreferenceManager;
+
 import java.util.ArrayList;
 
 import com.commonsware.cwac.anddown.AndDown;
@@ -30,6 +33,12 @@ import com.commonsware.cwac.anddown.AndDown;
 public class Formatter
 {
   /**
+   * current context, which can be used e.g. to retrieve resources
+   */
+  protected Context context;
+
+
+  /**
    * additional filters, applied to rendered HTML code
    */
   private final ArrayList<Filter> filters;
@@ -38,29 +47,32 @@ public class Formatter
   /**
    * default constructor
    */
-  public Formatter ()
+  public Formatter (Context context)
   {
+    this.context = context;
     filters = new ArrayList<Filter> ();
   }
 
 
   /**
    * Convert given MarkDown code to HTML
-   * 
-   * @param markdown      MarkDown code to be used
-   * @param mdExtensions  bit mask of MarkDown extensions, which should be used
-   * 
-   * @return              generated HTML code  
+   *
+   * @param markdown     MarkDown code to be used
+   * @param mdExtensions bit mask of MarkDown extensions, which should be used
+   *
+   * @return generated HTML code
    */
-  public CharSequence format (String markdown, int mdExtensions)
+  public CharSequence format (String markdown)
   {
     long start = System.currentTimeMillis ();
 
-    CharSequence out = AndDown.markdownToHtml (markdown, mdExtensions);
+    CharSequence out =
+      AndDown.markdownToHtml (markdown, getAllowedMarkDownExtensions ());
 
     // Apply the filters on the output.
     // Note that the order of the filters is important
-    for (Filter filter: filters)
+    for (Filter filter
+      : filters)
     {
       out = filter.filter (out);
     }
@@ -74,11 +86,24 @@ public class Formatter
 
   /**
    * Add filter, which should be applied after MarkDown to HTML conversion
-   * 
-   * @param filter    filter to be applied
+   *
+   * @param filter filter to be applied
    */
   public void addFilter (Filter filter)
   {
     filters.add (filter);
+  }
+
+
+  /**
+   * Gets MarkDown extensions, selected in preferences
+   * 
+   * @return              bit mask of selected MarkDown extensions as used
+   *                      by the AndDown library
+   */
+  private int getAllowedMarkDownExtensions ()
+  {
+    return Preferences.getAllowedMarkDownExtensions (
+      PreferenceManager.getDefaultSharedPreferences (context));
   }
 }

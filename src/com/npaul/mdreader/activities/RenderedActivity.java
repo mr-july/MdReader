@@ -81,15 +81,11 @@ public class RenderedActivity extends Activity {
             Intent param = params[0];
             text = readInData(param);
 
-            Formatter formatter = new Formatter();
+            Formatter formatter = new Formatter(RenderedActivity.this);
             formatter.addFilter(new StyleFilter(RenderedActivity.this));
             formatter.addFilter(new FoldingFilter(RenderedActivity.this));
 
-            int mdExtensions = Preferences.getAllowedMarkDownExtensions (
-              PreferenceManager.getDefaultSharedPreferences (
-                RenderedActivity.this));
-
-            src = formatter.format(text, mdExtensions);
+            src = formatter.format(text);
             return src;
         }
 
