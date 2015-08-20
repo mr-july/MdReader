@@ -82,8 +82,8 @@ public class RenderedActivity extends Activity {
             text = readInData(param);
 
             Formatter formatter = new Formatter();
-            formatter.addFilter(new StyleFilter());
-            formatter.addFilter(new FoldingFilter());
+            formatter.addFilter(new StyleFilter(RenderedActivity.this));
+            formatter.addFilter(new FoldingFilter(RenderedActivity.this));
 
             int mdExtensions = Preferences.getAllowedMarkDownExtensions (
               PreferenceManager.getDefaultSharedPreferences (

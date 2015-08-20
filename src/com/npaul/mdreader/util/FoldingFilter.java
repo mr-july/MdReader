@@ -15,8 +15,14 @@
  */
 package com.npaul.mdreader.util;
 
+
+import android.content.Context;
+
+import com.npaul.mdreader.R;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * Use JQuery to add folding feature to titles.
@@ -28,7 +34,17 @@ import java.util.regex.Pattern;
  * @author Cedric Bosdonnat <cedric.bosdonnat@free.fr>
  *
  */
-public class FoldingFilter extends Filter {
+public class FoldingFilter extends ContextDependentFilter {
+  
+    /**
+     * constructor, populating the context
+     *
+     * @param context current context
+     */
+    public FoldingFilter (Context context)
+    {
+        super (context);
+    }
 
     @Override
     public CharSequence filter(CharSequence in) {
@@ -39,14 +55,7 @@ public class FoldingFilter extends Filter {
         out = includeCss(out);
         out = includeJQuery(out);
 
-        String script = "<script>"
-                      + "$(\"h1\").click(function() {"
-                      + "    var content = $(this).get(0).nextElementSibling;"
-                      + "    $(content).slideToggle(\"fast\");"
-                      + "    $(this).get(0).classList.toggle(\"open_section\");"
-                      + "});"
-                      + "$(\".content\").hide()"
-                      + "</script>";
+        String script = context.getString (R.string.FOLDING_JS);
         out = appendToBody(out, script);
         return out;
     }
@@ -79,24 +88,13 @@ public class FoldingFilter extends Filter {
     }
 
     protected CharSequence includeCss(CharSequence in) {
-        String css = "<style>"
-                   + "h1 {"
-                   + "    background: url(\"file:///android_asset/show.png\") no-repeat scroll left center rgba(0, 0, 0, 0);"
-                   + "    border-bottom: 1px solid #E2E3E4;"
-                   + "    padding-left: 26px;"
-                   + "    position: relative;"
-                   + "    line-height: 1.3;"
-                   + "}"
-                   + "h1.open_section {"
-                   + "    background: url(\"file:///android_asset/hide.png\") no-repeat scroll left center rgba(0, 0, 0, 0);"
-                   + "}"
-                   + "</style>";
+        String css = context.getString (R.string.FOLDING_CSS);
 
         return appendToHead(in, css);
     }
 
     protected CharSequence includeJQuery(CharSequence in) {
-        String include = "<script src=\"file:///android_asset/jquery-2.1.0.min.js\"></script>";
+        String include = context.getString (R.string.MAIN_JS);
         if (!in.toString().contains (include))
             return appendToBody(in, include);
         return in;

@@ -15,8 +15,10 @@
  */
 package com.npaul.mdreader.util;
 
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * Interface to implement new filters to apply on an HTML string.
@@ -38,7 +40,7 @@ public abstract class Filter {
         StringBuffer out = new StringBuffer();
 
         Matcher m = Pattern.compile("</head>", Pattern.CASE_INSENSITIVE).matcher(in);
-        int pos = in.length();
+        int pos;
         String toAppend = content;
         if (m.find()) {
             pos = m.start();

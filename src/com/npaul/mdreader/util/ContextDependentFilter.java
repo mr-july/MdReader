@@ -17,27 +17,37 @@ package com.npaul.mdreader.util;
 
 
 import android.content.Context;
-import com.npaul.mdreader.R;
 
 
-public class StyleFilter extends ContextDependentFilter
+/**
+ * Interface to implement new context-dependent filters to apply on an
+ * HTML string.
+ *
+ * @author Igor Lyubimov <igor.lyubimov@gmail.com>
+ */
+public abstract class ContextDependentFilter extends Filter
 {
 
-  /**
-   * constructor, populating the context
-   *
-   * @param context current context
-   */
-  public StyleFilter (Context context)
-  {
-    super (context);
-  }
-
-
-  @Override
-  public CharSequence filter (CharSequence in)
-  {
-    String css = context.getResources ().getString (R.string.INLINE_CSS);
-    return appendToHead (in, css);
-  }
+    /**
+     * current context, which can be used e.g. to retrieve resources
+     */
+    protected Context context;
+    
+    
+    /**
+     * private constructor
+     */
+    private ContextDependentFilter () {
+      // empty (prevent creation without parameter)
+    }
+    
+    
+    /**
+     * constructor, populating the context
+     * 
+     * @param context     current context
+     */
+    public ContextDependentFilter (Context context) {
+        this.context = context;
+    }
 }
