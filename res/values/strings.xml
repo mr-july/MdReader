@@ -51,9 +51,10 @@
   <string name="preference_md_extensions">MarkDown Extensions</string>
   <string name="preference_use_md_extensions_title">Use MarkDown Extensions</string>
   <string name="preference_use_md_extensions_summary">Activate selected MarkDown extensions</string>
-  <string name="preference_use_md_extension_tables_title">Tables</string>
-  <string name="preference_use_md_extension_tables_summary">Support tables</string>
-
+  <string name="preference_use_md_extensions_help_title">Info</string>
+  <string name="preference_use_md_extensions_help_summary">MarkDown extensions online documentation</string>
+  <string name="preference_use_md_extensions_configuration_title">Configuration</string>
+  <string name="preference_use_md_extensions_configuration_summary">Configure MarkDown extensions</string>
   <string name="preference_use_md_extension_tables_title">Tables</string>
   <string name="preference_use_md_extension_tables_summary">Support tables</string>
   <string name="preference_use_md_extension_fenced_code_title">Fenced Code</string>
