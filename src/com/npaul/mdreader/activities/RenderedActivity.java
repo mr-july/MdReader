@@ -252,6 +252,11 @@ public class RenderedActivity extends Activity {
         case R.id.menu_saveAs:
             saveAsCopy();
             break;
+          
+        // preferences
+        case R.id.menu_preferences:
+            showPreferences();
+            break;
         }
         return true;
     }
@@ -470,5 +475,13 @@ public class RenderedActivity extends Activity {
         intent.setData(getIntent().getData());
         intent.putExtra("text", text);
         RenderedActivity.this.startActivityForResult(intent, EDIT_CODE);
+    }
+
+    /**
+     * Show preferences activity
+     */
+    private void showPreferences() {
+        Intent intent = new Intent(RenderedActivity.this, PreferencesActivity.class);
+        RenderedActivity.this.startActivity(intent);
     }
 }
