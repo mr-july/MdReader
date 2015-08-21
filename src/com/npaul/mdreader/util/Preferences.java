@@ -23,6 +23,8 @@ import android.preference.PreferenceManager;
 import com.commonsware.cwac.anddown.AndDown;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -41,7 +43,28 @@ public class Preferences
     new HashMap<AndDown.Extensions, String> ();
 
 
+  /**
+   * Set, containing preference keys, which are related to HTML rendering
+   */
+  private static final Set<String> renderingRelatedPrefs =
+    new HashSet<String> ();
+
+
+  /**
+   * initialize static variables
+   */
   static
+  {
+    initMdExt2Pref ();
+    initRenderingRelatedPrefs ();
+  }
+
+
+  /**
+   * Initialization of hash, connecting {@code AndDown.Extensions} elements
+   * to preference keys
+   */
+  private static void initMdExt2Pref ()
   {
     mdExt2Prefs.put (AndDown.Extensions.HOEDOWN_EXT_TABLES,
       "preference_use_md_extension_tables");
@@ -71,6 +94,33 @@ public class Preferences
       "preference_use_md_extension_math_explicit");
     mdExt2Prefs.put (AndDown.Extensions.HOEDOWN_EXT_DISABLE_INDENTED_CODE,
       "preference_use_md_extension_disable_indented_code");
+  }
+
+
+  /**
+   * Initialization of set, containing preference keys, which are related
+   * to HTML rendering
+   */
+  private static void initRenderingRelatedPrefs ()
+  {
+    renderingRelatedPrefs.add ("preference_use_md_extensions");
+    renderingRelatedPrefs.add ("preference_use_md_extension_tables");
+    renderingRelatedPrefs.add ("preference_use_md_extension_fenced_code");
+    renderingRelatedPrefs.add ("preference_use_md_extension_footnotes");
+    renderingRelatedPrefs.add ("preference_use_md_extension_autolink");
+    renderingRelatedPrefs.add ("preference_use_md_extension_strikethrough");
+    renderingRelatedPrefs.add ("preference_use_md_extension_underline");
+    renderingRelatedPrefs.add ("preference_use_md_extension_highlight");
+    renderingRelatedPrefs.add ("preference_use_md_extension_quote");
+    renderingRelatedPrefs.add ("preference_use_md_extension_superscript");
+    renderingRelatedPrefs.add ("preference_use_md_extension_math");
+    renderingRelatedPrefs.add ("preference_use_md_extension_no_intra_emphasis");
+    renderingRelatedPrefs.add ("preference_use_md_extension_space_headers");
+    renderingRelatedPrefs.add ("preference_use_md_extension_math_explicit");
+    renderingRelatedPrefs.add (
+      "preference_use_md_extension_disable_indented_code");
+    renderingRelatedPrefs.add ("preference_html_use_extra_styles");
+    renderingRelatedPrefs.add ("preference_html_use_folding");
   }
 
 
@@ -129,6 +179,20 @@ public class Preferences
   {
     return getBooleanPreferenceFromContext (context,
       "preference_html_use_folding");
+  }
+
+
+  /**
+   * Check whether given preference is related to renderer configuration
+   *
+   * @param prefName preference to analyse
+   *
+   * @return {@code true} if given preference is related to
+   *         renderer configuration, {@code false} otherwise
+   */
+  public static boolean isRenderingRelatedPrefs (String prefName)
+  {
+    return renderingRelatedPrefs.contains (prefName);
   }
 
 
