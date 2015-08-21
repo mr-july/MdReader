@@ -252,7 +252,7 @@ public class EditActivity extends Activity {
         } else if (scheme.equals("file")) {
             Uri uri = intent.getData();
             file = new File(uri.getPath());
-            this.filename = file.getName();
+            filename = file.getName();
             setTitle(filename);
         }
         readInData(intent);
@@ -278,6 +278,9 @@ public class EditActivity extends Activity {
     /**
      * Responds to a menu press
      *
+     * @param item    selected menu item
+     * 
+     * @return 
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
