@@ -161,7 +161,17 @@ public class RenderedActivity extends Activity {
         }
     }
 
+
+    /**
+     * Constant used to retrieve result code of started edit activity 
+     */
     private static final int EDIT_CODE = 1;
+    
+    
+    /**
+     * Constant used to retrieve result code of started preference activity 
+     */
+    private static final int PREFERENCE_CODE = 2;
 
     final Context context = this;
     private WebView w;
@@ -195,7 +205,7 @@ public class RenderedActivity extends Activity {
         } else if (scheme.equals("file")) {
             Uri uri = intent.getData();
             file = new File(uri.getPath());
-            this.filename = file.getName();
+            filename = file.getName();
             setTitle(filename);
         }
 
@@ -261,13 +271,30 @@ public class RenderedActivity extends Activity {
         return true;
     }
 
+    /**
+     * Process activity results
+     * 
+     * @param requestCode     request code
+     * @param resultCode      result code
+     * @param data            data from other activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDIT_CODE && resultCode == RESULT_OK) {
-            textChanged = true;
-            invalidateOptionsMenu();
+        switch (requestCode) {
+          case EDIT_CODE:
+            if (resultCode == RESULT_OK) {
+                textChanged = true;
+                invalidateOptionsMenu();
 
-            new Renderer().execute(data);
+                new Renderer().execute(data);
+            }
+            break;
+            
+          case PREFERENCE_CODE:
+            if (resultCode == RESULT_OK) {
+              recreate ();
+            }
+            break;
         }
     }
 
@@ -427,7 +454,7 @@ public class RenderedActivity extends Activity {
                     R.string.saved_as_info,
                     Toast.LENGTH_LONG).show();
         } finally {
-            this.filename = fileToWrite.getName();
+            filename = fileToWrite.getName();
             setTitle(filename);
             textChanged = false;
             Toast.makeText(context,
@@ -471,17 +498,17 @@ public class RenderedActivity extends Activity {
     }
 
     private void editText() {
-        Intent intent = new Intent(RenderedActivity.this, EditActivity.class);
+        Intent intent = new Intent(context, EditActivity.class);
         intent.setData(getIntent().getData());
         intent.putExtra("text", text);
-        RenderedActivity.this.startActivityForResult(intent, EDIT_CODE);
+        startActivityForResult(intent, EDIT_CODE);
     }
 
     /**
      * Show preferences activity
      */
     private void showPreferences() {
-        Intent intent = new Intent(RenderedActivity.this, PreferencesActivity.class);
-        RenderedActivity.this.startActivity(intent);
+        Intent intent = new Intent(context, PreferencesActivity.class);
+        startActivityForResult (intent, PREFERENCE_CODE);
     }
 }

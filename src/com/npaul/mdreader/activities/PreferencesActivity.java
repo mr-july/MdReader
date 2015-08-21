@@ -19,10 +19,13 @@ package com.npaul.mdreader.activities;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 
 import com.npaul.mdreader.R;
+import com.npaul.mdreader.util.Preferences;
 
 
 /**
@@ -32,6 +35,9 @@ import com.npaul.mdreader.R;
  */
 public class PreferencesActivity extends Activity
 {
+
+  SharedPreferences.OnSharedPreferenceChangeListener listener;
+
 
   @Override
   protected void onCreate (Bundle savedInstanceState)
@@ -49,12 +55,25 @@ public class PreferencesActivity extends Activity
     mFragmentTransaction.replace (android.R.id.content, mPrefsFragment);
     mFragmentTransaction.commit ();
 
+    listener = new SharedPreferences.OnSharedPreferenceChangeListener ()
+    {
+      public void onSharedPreferenceChanged (SharedPreferences prefs, String key)
+      {
+        if (Preferences.isRenderingRelatedPrefs (key))
+        {
+          setResult (RESULT_OK);
+        }
+      }
+    };
+    
+    PreferenceManager.getDefaultSharedPreferences (this).
+      registerOnSharedPreferenceChangeListener (listener);
+
 //  We could have condensed the 5 lines into 1 line of code. 		
 //		getFragmentManager().beginTransaction()
 //				.replace(android.R.id.content, new PrefsFragment()).commit();
   }
 
-  
   /**
    * Fragment, handling the preferences setting
    */
