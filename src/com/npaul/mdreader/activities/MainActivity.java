@@ -398,8 +398,8 @@ public class MainActivity extends Activity {
      * Show preferences activity
      */
     private void showPreferences() {
-        Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
-        MainActivity.this.startActivity(intent);
+        Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -409,9 +409,9 @@ public class MainActivity extends Activity {
      *            the file to be opened
      */
     private void openFile(File file) {
-        Intent intent = new Intent(MainActivity.this, RenderedActivity.class);
+        Intent intent = new Intent(this, RenderedActivity.class);
         intent.setData(Uri.fromFile(file));
-        MainActivity.this.startActivity(intent);
+        startActivity(intent);
 
     }
 
