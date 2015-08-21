@@ -15,8 +15,8 @@
  */
 package com.npaul.mdreader.ui;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -29,22 +29,22 @@ public class CheckableRelativeLayout extends RelativeLayout implements
         Checkable {
 
     boolean mChecked;
-    private List<Checkable> mCheckableViews;
+    private final List<Checkable> mCheckableViews;
 
     public CheckableRelativeLayout(Context context) {
         super(context);
-        mCheckableViews = new Vector<Checkable>();
+        mCheckableViews = new ArrayList<Checkable>();
     }
 
     public CheckableRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mCheckableViews = new Vector<Checkable>();
+        mCheckableViews = new ArrayList<Checkable>();
     }
 
     public CheckableRelativeLayout(Context context, AttributeSet attrs,
             int defStyle) {
         super(context, attrs, defStyle);
-        mCheckableViews = new Vector<Checkable>();
+        mCheckableViews = new ArrayList<Checkable>();
     }
 
     @Override
@@ -71,9 +71,9 @@ public class CheckableRelativeLayout extends RelativeLayout implements
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        final int childCount = this.getChildCount();
+        final int childCount = getChildCount();
         for (int i = 0; i < childCount; ++i) {
-            findCheckableChildren(this.getChildAt(i));
+            findCheckableChildren(getChildAt(i));
         }
     }
 
