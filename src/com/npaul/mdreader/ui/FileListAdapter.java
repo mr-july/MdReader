@@ -95,7 +95,7 @@ public class FileListAdapter extends ArrayAdapter<File> {
             fih.name.setText(fli.getName());
             if (fli.isDirectory()){
                 fih.detail.setText(R.string.directory);
-                fih.detail.setTextColor(Color.GRAY);
+                //fih.detail.setTextColor(Color.GRAY);
                 fih.image.setImageResource(R.drawable.folder);
             } else {
                 long lastModified = fli.lastModified();
@@ -104,7 +104,7 @@ public class FileListAdapter extends ArrayAdapter<File> {
                 String dateTime = date + " " + time;
                 fih.detail.setText(String.format(getContext().getString(R.string.last_modified),
                                                  dateTime));
-                fih.detail.setTextColor(Color.BLACK);
+                //fih.detail.setTextColor(Color.BLACK);
                 fih.image.setImageResource(R.drawable.file);
             }
         }

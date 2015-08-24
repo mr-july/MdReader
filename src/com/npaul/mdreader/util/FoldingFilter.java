@@ -96,7 +96,7 @@ public class FoldingFilter extends ContextDependentFilter {
     protected CharSequence includeJQuery(CharSequence in) {
         String include = context.getString (R.string.MAIN_JS);
         if (!in.toString().contains (include))
-            return appendToBody(in, include);
+            return appendToHead (in, include);
         return in;
     }
 
