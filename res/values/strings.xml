@@ -48,6 +48,10 @@
   <string name="last_modified">Last Modified: %s</string>
 
   <string name="menu_preferences">Preferences</string>
+
+  <string name="preference_directory_first_title">Directory First</string>
+  <string name="preference_directory_first_summary">Show directories before files in list</string>
+
   <string name="preference_md_extensions">MarkDown Extensions</string>
   <string name="preference_use_md_extensions_title">Use MarkDown Extensions</string>
   <string name="preference_use_md_extensions_summary">Activate selected MarkDown extensions</string>

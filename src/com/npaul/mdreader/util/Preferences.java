@@ -196,6 +196,12 @@ public class Preferences
   }
 
 
+  public static boolean isDirectoryFirst (Context context)
+  {
+    return getBooleanPreferenceFromContext (context,
+      "preference_directory_first");
+  }
+  
   /**
    * Checks if specified boolean preference is set ({@code true}), if so, then
    * returns specified value, otherwise 0.

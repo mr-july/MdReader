@@ -123,7 +123,7 @@ public class MainActivity extends Activity {
           }
         }
 
-        Collections.sort(fileArray, new FileStringComparator());
+        Collections.sort(fileArray, new FileStringComparator(context));
         return fileArray;
     }
 

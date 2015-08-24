@@ -15,6 +15,7 @@
  */
 package com.npaul.mdreader.util;
 
+import android.content.Context;
 import java.io.File;
 import java.util.Comparator;
 import java.util.Locale;
@@ -26,15 +27,34 @@ import java.util.Locale;
  * @version 1.0
  */
 public class FileStringComparator implements Comparator<File> {
+    private boolean isDirectoryFirst;
+    
+    private FileStringComparator () {
+      // empty
+    }
+    
+    public FileStringComparator (Context context) {
+        isDirectoryFirst = Preferences.isDirectoryFirst (context);
+    }
 
     /* (non-Javadoc)
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
     @Override
     public int compare(File lhs, File rhs) {
+        int res = 0;
         String s1 = lhs.getName(),s2 = rhs.getName();
+        boolean isD1 = lhs.isDirectory (), isD2 = rhs.isDirectory ();
+        
+        if ((isD1 || isD2) && !(isD1 && isD2) && isDirectoryFirst)
+            res = isD1 ? -1 : 1;
+        
         //we need to use Locale.ENGLISH to ensure that international users get their files sorted in an English fashion
-        return s1.toLowerCase(Locale.ENGLISH).compareTo(s2.toLowerCase(Locale.ENGLISH));
+        if (res == 0)
+            res = s1.toLowerCase(Locale.ENGLISH).compareTo(
+                s2.toLowerCase(Locale.ENGLISH));
+        
+        return res;
     }
 
 }
