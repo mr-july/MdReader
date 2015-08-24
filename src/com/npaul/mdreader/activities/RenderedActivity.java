@@ -400,7 +400,8 @@ public class RenderedActivity extends Activity {
             input.setText(Environment.getExternalStorageDirectory().getPath()
                     + "/Notes/" + ".md");
         } else {
-            input.setText(file.getAbsolutePath());
+            String fileName = file.getAbsolutePath();
+            input.setText(fileName.replaceFirst ("(.+)\\.(md|txt)$", "$1.html"));
         }
         newBuilder.setView(input).setPositiveButton(R.string.ok,
                 new DialogInterface.OnClickListener() {
