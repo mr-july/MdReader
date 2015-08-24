@@ -70,6 +70,7 @@ public class MainActivity extends Activity {
     final Context context = this;
     private List<File> files;
     private ListView lv;
+    private ActionMode actionMode;
 
     private String currentDirectory;
     private final Stack<String> dirHistory = new Stack<String>();
@@ -159,7 +160,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view,
                     final int position, long id) {
-                startActionMode(new SelectMode());
+                actionMode = startActionMode(new SelectMode());
                 lv.setItemChecked(position, true);
 
                 return true;
@@ -463,7 +464,9 @@ public class MainActivity extends Activity {
                                     files.get(position).delete();
                                 }
                             }
+                            lv.clearChoices ();
                             refreshFileList();
+                            actionMode.finish ();
                         }
                     });
 
