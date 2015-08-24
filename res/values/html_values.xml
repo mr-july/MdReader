@@ -1,7 +1,7 @@
 <resources>
 
   <string name="MAIN_JS" formatted="false">
-<![CDATA[<script src=\"file:///android_asset/jquery-2.1.0.min.js\"></script>]]>
+<![CDATA[<script src=\"file:///android_asset/minified-web.js\"></script>]]>
   </string>
   <string name="INLINE_CSS" formatted="false">
 <![CDATA[
@@ -48,13 +48,31 @@ img {
   <string name="FOLDING_JS" formatted="false">
 <![CDATA[
 <script type=\"text/javascript\">
+var MINI = require(\'minified\');
+var $ = MINI.$;
 $(function() {
-  $(\'h1\').click(function() {
-    var content = $(this).get(0).nextElementSibling;
-    $(content).slideToggle(\'fast\');
-    $(this).get(0).classList.toggle(\'open_section\');
+  var toggleDuration = 400,
+    sectionHeaderSelector = \'h1\',
+    toggles = [];
+
+  $(sectionHeaderSelector).each(function(item, index) {
+    var toggleSection = $(item.nextElementSibling).toggle({
+        $$slide: 1
+      }, {
+        $$slide: 0
+      }, toggleDuration),
+      toggleClass = $(item).toggle(\'open_section\');
+    toggleSection();
+    toggles[index] = function() {
+      toggleSection();
+      toggleClass();
+    };
+    $(item).set(\'%index\', index);
   });
-  $(\'.content\').hide();
+
+  $(sectionHeaderSelector).onClick(function() {
+    (toggles[this.get(\'%index\')])();
+  });
 });
 </script>]]>
   </string>
