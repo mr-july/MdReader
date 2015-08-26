@@ -397,11 +397,12 @@ public class RenderedActivity extends Activity {
         final EditText input = new EditText(this);
 
         if (file == null) {
-            input.setText(Environment.getExternalStorageDirectory().getPath()
-                    + "/Notes/" + ".md");
+            input.setText(Environment.getExternalStorageDirectory().getPath() +
+              "/Notes/.md");
         } else {
             String fileName = file.getAbsolutePath();
-            input.setText(fileName.replaceFirst ("(.+)\\.(md|txt)$", "$1.html"));
+            // fileName.replaceFirst ("(.+)\\.(md|txt)$", "$1.html")
+            input.setText(fileName);
         }
         newBuilder.setView(input).setPositiveButton(R.string.ok,
                 new DialogInterface.OnClickListener() {
@@ -447,7 +448,7 @@ public class RenderedActivity extends Activity {
         try {
             FileOutputStream out = new FileOutputStream(fileToWrite);
             OutputStreamWriter outBuffer = new OutputStreamWriter(out);
-            outBuffer.append(src);
+            outBuffer.append(text);
             outBuffer.close();
             out.close();
         } catch (IOException e) {
@@ -455,12 +456,15 @@ public class RenderedActivity extends Activity {
                     R.string.saved_as_info,
                     Toast.LENGTH_LONG).show();
         } finally {
-            filename = fileToWrite.getName();
+            file = fileToWrite;
+            filename = file.getName();
+            getIntent ().setData (Uri.fromFile(file));
             setTitle(filename);
             textChanged = false;
+            invalidateOptionsMenu ();
             Toast.makeText(context,
                     String.format(getString(R.string.saved_as_info),
-                                  fileToWrite.getAbsolutePath()),
+                                  file.getAbsolutePath()),
                     Toast.LENGTH_LONG).show();
             if (exitOnSave) {
                 finish();
