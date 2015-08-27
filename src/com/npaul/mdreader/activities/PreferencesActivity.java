@@ -16,7 +16,6 @@
 package com.npaul.mdreader.activities;
 
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
@@ -33,10 +32,25 @@ import com.npaul.mdreader.util.Preferences;
  *
  * @author Igor Lyubimov <igor.lyubimov@gmail.com>
  */
-public class PreferencesActivity extends Activity
+public class PreferencesActivity extends BaseActivity
 {
+  /**
+   * bit mask to be set if rendering-related parameters was changed
+   */
+  public static final int RENDER_PARAMS_CHANGED = (1 << 3);
 
-  SharedPreferences.OnSharedPreferenceChangeListener listener;
+
+  /**
+   * listener for application configuration changes
+   */
+  private SharedPreferences.OnSharedPreferenceChangeListener listener;
+
+
+  /**
+   * result code of preference activity will be set according to changed
+   * preferences
+   */
+  private int resultCode = RESULT_CANCELED;
 
 
   @Override
@@ -61,11 +75,12 @@ public class PreferencesActivity extends Activity
       {
         if (Preferences.isRenderingRelatedPrefs (key))
         {
-          setResult (RESULT_OK);
+          resultCode |= RENDER_PARAMS_CHANGED;
+          setResult (resultCode);
         }
       }
     };
-    
+
     PreferenceManager.getDefaultSharedPreferences (this).
       registerOnSharedPreferenceChangeListener (listener);
 
