@@ -196,12 +196,38 @@ public class Preferences
   }
 
 
+  /**
+   * Check whether the application preference "Light Theme" is set
+   *
+   * @param context current context, which can be used e.g. to retrieve
+   *                resources or preferences
+   *
+   * @return {@code true} if the application preference "Light Theme"
+   *         is set, {@code false} otherwise
+   */
+  public static boolean isLightTheme (Context context)
+  {
+    return getBooleanPreferenceFromContext (context,
+      "preference_light_theme");
+  }
+
+
+  /**
+   * Check whether the application preference "Directory First" is set
+   *
+   * @param context current context, which can be used e.g. to retrieve
+   *                resources or preferences
+   *
+   * @return {@code true} if the application preference "Directory First"
+   *         is set, {@code false} otherwise
+   */
   public static boolean isDirectoryFirst (Context context)
   {
     return getBooleanPreferenceFromContext (context,
       "preference_directory_first");
   }
-  
+
+
   /**
    * Checks if specified boolean preference is set ({@code true}), if so, then
    * returns specified value, otherwise 0.
