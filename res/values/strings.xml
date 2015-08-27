@@ -49,6 +49,9 @@
 
   <string name="menu_preferences">Preferences</string>
 
+  <string name="preference_light_theme_title">Light Theme</string>
+  <string name="preference_light_theme_summary">Use light application theme</string>
+
   <string name="preference_directory_first_title">Directory First</string>
   <string name="preference_directory_first_summary">Show directories before files in list</string>
 

@@ -7,6 +7,11 @@
   -->
   <style name="AppBaseTheme" parent="android:Theme.Holo">
     <!-- API 14 theme customizations can go here. -->
+    <item name="attr/menuIconFile">@drawable/file</item>
+  </style>
+
+  <style name="AppBaseTheme.Light" parent="android:Theme.Holo.Light">
+    <item name="attr/menuIconFile">@drawable/file_light</item>
   </style>
 
 </resources>
