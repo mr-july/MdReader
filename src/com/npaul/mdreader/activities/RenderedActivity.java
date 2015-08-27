@@ -31,7 +31,6 @@ import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -51,6 +50,9 @@ import android.widget.Toast;
 import com.npaul.mdreader.R;
 import com.npaul.mdreader.util.Formatter;
 
+import static com.npaul.mdreader.activities.PreferencesActivity.
+  RENDER_PARAMS_CHANGED;
+
 /**
  * An activity that renders markdown on screen using MarkdownJ -
  * http://www.markdownj.org/
@@ -58,7 +60,7 @@ import com.npaul.mdreader.util.Formatter;
  * @author Nathan Paul
  * @version 1.1
  */
-public class RenderedActivity extends Activity {
+public class RenderedActivity extends BaseActivity {
 
     /**
      * The renderer renders the markdown asynchronously to the main thread
@@ -168,11 +170,6 @@ public class RenderedActivity extends Activity {
     private static final int EDIT_CODE = 1;
     
     
-    /**
-     * Constant used to retrieve result code of started preference activity 
-     */
-    private static final int PREFERENCE_CODE = 2;
-
     final Context context = this;
     private WebView w;
 
@@ -281,21 +278,23 @@ public class RenderedActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-          case EDIT_CODE:
+        case EDIT_CODE:
             if (resultCode == RESULT_OK) {
-                textChanged = true;
+            textChanged = true;
                 invalidateOptionsMenu();
 
                 new Renderer().execute(data);
-            }
-            break;
-            
-          case PREFERENCE_CODE:
-            if (resultCode == RESULT_OK) {
-              recreate ();
-            }
-            break;
-        }
+          }
+          break;
+
+        case PREFERENCE_CODE:
+          if (resultCode > RESULT_FIRST_USER &&
+            (resultCode & RENDER_PARAMS_CHANGED) != 0)
+          {
+            recreate ();
+          }
+          break;
+      }
     }
 
     /**
@@ -507,13 +506,5 @@ public class RenderedActivity extends Activity {
         intent.setData(getIntent().getData());
         intent.putExtra("text", text);
         startActivityForResult(intent, EDIT_CODE);
-    }
-
-    /**
-     * Show preferences activity
-     */
-    private void showPreferences() {
-        Intent intent = new Intent(context, PreferencesActivity.class);
-        startActivityForResult (intent, PREFERENCE_CODE);
     }
 }
