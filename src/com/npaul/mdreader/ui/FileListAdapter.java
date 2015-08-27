@@ -20,8 +20,9 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateFormat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +42,14 @@ import com.npaul.mdreader.R;
  */
 public class FileListAdapter extends ArrayAdapter<File> {
 
-    private Activity mContext;
-    private List<File> files;
+    private final Activity mContext;
+    private final List<File> files;
     private FileItemHolder fih;
+    
+    /**
+     * theme styled file icon
+     */
+    private final Drawable fileIcon;
 
     /**
      * @param context
@@ -56,6 +62,11 @@ public class FileListAdapter extends ArrayAdapter<File> {
         mContext = context;
         this.files = files;
 
+        // get theme styled file icon
+        final TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.menuIconFile, tv, true);
+        
+        fileIcon = context.getResources().getDrawable(tv.resourceId);
     }
 
     private static class FileItemHolder {
@@ -105,7 +116,7 @@ public class FileListAdapter extends ArrayAdapter<File> {
                 fih.detail.setText(String.format(getContext().getString(R.string.last_modified),
                                                  dateTime));
                 //fih.detail.setTextColor(Color.BLACK);
-                fih.image.setImageResource(R.drawable.file);
+                fih.image.setImageDrawable (fileIcon);
             }
         }
 
