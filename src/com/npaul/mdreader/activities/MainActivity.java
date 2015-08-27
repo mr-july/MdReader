@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.Stack;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -58,7 +57,7 @@ import com.npaul.mdreader.util.FileStringComparator;
  * @author Nathan Paul
  * @version 1.1
  */
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     /** RegExp pattern for files, which should be visible in the file browser */
     public static final String LISTED_FILE_PATTERN_STRING = "^.+\\.(md|txt)$";
@@ -393,14 +392,6 @@ public class MainActivity extends Activity {
     public void onResume() {
         refreshFileList();
         super.onResume();
-    }
-
-    /**
-     * Show preferences activity
-     */
-    private void showPreferences() {
-        Intent intent = new Intent(this, PreferencesActivity.class);
-        startActivity(intent);
     }
 
     /**
