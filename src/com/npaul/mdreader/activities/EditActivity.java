@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -51,7 +50,7 @@ import com.npaul.mdreader.R;
  * @version 1.1
  *
  */
-public class EditActivity extends Activity {
+public class EditActivity extends BaseActivity {
 
     final Context context = this;
     private EditText t;
