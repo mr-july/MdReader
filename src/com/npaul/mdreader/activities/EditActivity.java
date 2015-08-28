@@ -333,4 +333,38 @@ public class EditActivity extends BaseActivity {
         }
         t.setText(result);
     }
+
+    /**
+     * Overrides the finish function to ensure that the changes in edit text
+     * have been saved
+     */
+    @Override
+    public void finish() {
+        if (textChanged == true) {
+            AlertDialog.Builder adb = new AlertDialog.Builder(context);
+            adb.setTitle(R.string.save_changes_title);
+            adb.setMessage(R.string.save_changes_message)
+               .setNegativeButton(R.string.no,
+                    new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog,
+                        int which) {
+                    textChanged = false; // to stop endless loop
+                    finish();
+                }
+            })
+            .setPositiveButton(R.string.yes,
+                    new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog,
+                        int which) {
+                  ; // stay in activity
+                }
+            }).show();
+        } else {
+            super.finish();
+        }
+    }
 }
