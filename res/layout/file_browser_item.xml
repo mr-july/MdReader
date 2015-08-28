@@ -13,7 +13,7 @@
     android:layout_alignParentLeft="true"
     android:layout_centerVertical="true"
     android:contentDescription="placeholder for item type"
-    android:src="@drawable/file" />
+    android:src="?attr/menuIconFile" />
 
   <LinearLayout
     android:layout_width="match_parent"
