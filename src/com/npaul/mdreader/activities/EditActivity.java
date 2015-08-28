@@ -287,10 +287,14 @@ public class EditActivity extends BaseActivity {
         switch (item.getItemId()) {
 
         case R.id.menu_done:
-            Intent data = new Intent();
-            data.setData(getIntent().getData());
-            data.putExtra("text", t.getText().toString());
-            setResult(RESULT_OK, data);
+            if (textChanged) {
+              Intent data = new Intent();
+              data.setData(getIntent().getData());
+              data.putExtra("text", t.getText().toString());
+              setResult(RESULT_OK, data);
+            } else {
+              setResult(RESULT_CANCELED);
+            }
             finish();
             break;
 
