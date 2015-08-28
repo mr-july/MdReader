@@ -455,9 +455,8 @@ public class MainActivity extends BaseActivity {
                                     files.get(position).delete();
                                 }
                             }
-                            lv.clearChoices ();
-                            refreshFileList();
                             actionMode.finish ();
+                            refreshFileList();
                         }
                     });
 
@@ -488,6 +487,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            lv.clearChoices ();
             lv.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
             lv.invalidateViews();
         }
