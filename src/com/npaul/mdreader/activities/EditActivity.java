@@ -58,7 +58,7 @@ public class EditActivity extends ConfirmableActivity
   final Context context = this;
 
 
-  private EditText t;
+  private EditText textArea;
 
 
   private File file;
@@ -78,12 +78,12 @@ public class EditActivity extends ConfirmableActivity
    */
   private void editTextHelper (String text)
   {
-    int start = t.getSelectionStart ();
-    int end = t.getSelectionEnd ();
+    int start = textArea.getSelectionStart ();
+    int end = textArea.getSelectionEnd ();
 
-    t.getText ().insert (end, text);
-    t.getText ().insert (start, text);
-    t.setSelection (end + text.length ());
+    textArea.getText ().insert (end, text);
+    textArea.getText ().insert (start, text);
+    textArea.setSelection (end + text.length ());
   }
 
 
@@ -106,10 +106,10 @@ public class EditActivity extends ConfirmableActivity
       @Override
       public void onClick (View v)
       {
-        int start = t.getSelectionStart ();
-        int end = t.getSelectionEnd ();
-        t.getText ().replace (start, start, "\t");
-        t.setSelection (end + 1);
+        int start = textArea.getSelectionStart ();
+        int end = textArea.getSelectionEnd ();
+        textArea.getText ().replace (start, start, "\t");
+        textArea.setSelection (end + 1);
       }
     });
 
@@ -139,7 +139,7 @@ public class EditActivity extends ConfirmableActivity
       @Override
       public void onClick (View v)
       {
-        t.getText ().insert (t.getSelectionStart (), "#");
+        textArea.getText ().insert (textArea.getSelectionStart (), "#");
       }
     });
 
@@ -176,8 +176,8 @@ public class EditActivity extends ConfirmableActivity
         layout.addView (url);
 
         // get start and end selection points
-        final int start = t.getSelectionStart ();
-        final int end = t.getSelectionEnd ();
+        final int start = textArea.getSelectionStart ();
+        final int end = textArea.getSelectionEnd ();
 
         // build the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder (context);
@@ -190,12 +190,12 @@ public class EditActivity extends ConfirmableActivity
             public void onClick (DialogInterface dialog,
               int which)
             {
-              t.getText ().replace (
+              textArea.getText ().replace (
                 start,
                 end,
                 "[" + text.getText () + "](" +
                 url.getText () + ")");
-              t.setSelection (start + 4 + text.length () +
+              textArea.setSelection (start + 4 + text.length () +
                 url.length ());
             }
           });
@@ -229,7 +229,7 @@ public class EditActivity extends ConfirmableActivity
    */
   private void initTextArea ()
   {
-    t.addTextChangedListener (new TextWatcher ()
+    textArea.addTextChangedListener (new TextWatcher ()
     {
 
       @Override
@@ -286,7 +286,7 @@ public class EditActivity extends ConfirmableActivity
     super.onCreate (savedInstanceState);
 
     setContentView (R.layout.activity_edit);
-    t = (EditText)findViewById (R.id.editTextArea);
+    textArea = (EditText)findViewById (R.id.editTextArea);
 
     Intent intent = getIntent ();
     String scheme = intent.getScheme ();
@@ -388,7 +388,7 @@ public class EditActivity extends ConfirmableActivity
 
       }
     }
-    t.setText (result);
+    textArea.setText (result);
   }
 
 
@@ -409,7 +409,7 @@ public class EditActivity extends ConfirmableActivity
         {
           Intent data = new Intent ();
           data.setData (getIntent ().getData ());
-          data.putExtra ("text", t.getText ().toString ());
+          data.putExtra ("text", textArea.getText ().toString ());
           setResult (RESULT_OK, data);
         }
         else
