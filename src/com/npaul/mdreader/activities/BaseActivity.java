@@ -25,30 +25,29 @@ import com.npaul.mdreader.util.Preferences;
 
 
 /**
- * An activity where the user can choose a file to edit using a file browser
+ * An activity, which contains functions for theme changes through preferences
  *
  * @author Igor Lyubimov <igor.lyubimov@gmail.com>
  */
 public class BaseActivity extends Activity
 {
   /**
+   * Constant used to retrieve result code of started preference activity
+   */
+  public static final int PREFERENCE_CODE = 2;
+
+
+  /**
    * theme to be used for activity
    */
   protected int theme = R.style.AppBaseTheme;
 
 
-  /**
-   * Constant used to retrieve result code of started preference activity
-   */
-  public static final int PREFERENCE_CODE = 2;
-
-  
   /*
    * (non-Javadoc)
    *
    * @see android.app.Activity#onCreate(android.os.Bundle)
    */
-
   @Override
   protected void onCreate (Bundle savedInstanceState)
   {
