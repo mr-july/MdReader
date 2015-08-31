@@ -30,13 +30,33 @@
       android:textAppearance="?android:attr/textAppearanceLarge"
       android:textIsSelectable="false" />
 
-    <TextView
-      android:id="@+id/file_detail"
-      android:layout_width="wrap_content"
+    <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="detail"
-      android:textAppearance="?android:attr/textAppearanceSmall"
-      android:textIsSelectable="false" />
+      android:gravity="center" >
+
+      <TextView
+        android:id="@+id/file_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="detail"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textIsSelectable="false" />
+      <TextView
+        android:id="@+id/last_modified"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="date"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textIsSelectable="false" />
+
+    </LinearLayout>
+
   </LinearLayout>
 
   <com.npaul.mdreader.ui.InactiveCheckBox

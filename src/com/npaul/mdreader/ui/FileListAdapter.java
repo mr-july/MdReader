@@ -71,7 +71,11 @@ public class FileListAdapter extends ArrayAdapter<File> {
 
     private static class FileItemHolder {
         TextView name;
+        /**
+         * can be one of "directory" or file size
+         */
         TextView detail;
+        TextView lastModified;
         ImageView image;
         CheckBox checkbox;
     }
@@ -93,6 +97,7 @@ public class FileListAdapter extends ArrayAdapter<File> {
             fih.checkbox = (CheckBox) v.findViewById(R.id.file_checkbox);
             fih.name = (TextView) v.findViewById(R.id.file_name);
             fih.detail = (TextView) v.findViewById(R.id.file_detail);
+            fih.lastModified = (TextView) v.findViewById(R.id.last_modified);
             fih.image = (ImageView) v.findViewById(R.id.icon_listitem);
             v.setTag(fih);
         } else {
@@ -106,18 +111,18 @@ public class FileListAdapter extends ArrayAdapter<File> {
             fih.name.setText(fli.getName());
             if (fli.isDirectory()){
                 fih.detail.setText(R.string.directory);
-                //fih.detail.setTextColor(Color.GRAY);
                 fih.image.setImageResource(R.drawable.folder);
             } else {
-                long lastModified = fli.lastModified();
-                String date = DateFormat.getDateFormat(getContext()).format(lastModified);
-                String time = DateFormat.getTimeFormat(getContext()).format(lastModified);
-                String dateTime = date + " " + time;
-                fih.detail.setText(String.format(getContext().getString(R.string.last_modified),
-                                                 dateTime));
-                //fih.detail.setTextColor(Color.BLACK);
+                fih.detail.setText(String.format (
+                  mContext.getString (R.string.file_size), fli.length ()));
+                
                 fih.image.setImageDrawable (fileIcon);
             }
+            long lastModified = fli.lastModified();
+            String date = DateFormat.getDateFormat(mContext).format(lastModified);
+            String time = DateFormat.getTimeFormat(mContext).format(lastModified);
+            String dateTime = date + " " + time;
+            fih.lastModified.setText(dateTime);
         }
 
         return v;

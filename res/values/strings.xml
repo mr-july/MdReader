@@ -45,7 +45,7 @@
   <string name="link_text_hint">Text</string>
   <string name="link_url_hint">http://your.url/here/</string>
   <string name="directory">Directory</string>
-  <string name="last_modified">Last Modified: %s</string>
+  <string name="file_size">%d B</string>
 
   <string name="menu_preferences">Preferences</string>
 
