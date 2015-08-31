@@ -77,7 +77,8 @@ public class RenderedActivity extends ConfirmableActivity {
         @Override
         protected CharSequence doInBackground(Intent... params) {
             Intent param = params[0];
-            text = readInData(param);
+            if (param != null)
+                text = readInData(param);
 
             Formatter formatter = new Formatter(RenderedActivity.this);
             src = formatter.format(text);
@@ -292,16 +293,16 @@ public class RenderedActivity extends ConfirmableActivity {
                 invalidateOptionsMenu();
 
                 new Renderer().execute(data);
-          }
-          break;
+            }
+            break;
 
         case PREFERENCE_CODE:
-          if (resultCode > RESULT_FIRST_USER &&
-            (resultCode & RENDER_PARAMS_CHANGED) != 0)
-          {
-            recreate ();
-          }
-          break;
+            if (resultCode > RESULT_FIRST_USER &&
+              (resultCode & RENDER_PARAMS_CHANGED) != 0)
+            {
+                  new Renderer().execute(data);
+            }
+            break;
       }
     }
 
