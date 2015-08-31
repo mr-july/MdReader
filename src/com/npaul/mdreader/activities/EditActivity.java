@@ -15,6 +15,7 @@
  */
 package com.npaul.mdreader.activities;
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,6 +44,7 @@ import android.widget.LinearLayout;
 
 import com.npaul.mdreader.R;
 
+
 /**
  * An activity to help editing Markdown documents
  *
@@ -50,321 +52,373 @@ import com.npaul.mdreader.R;
  * @version 1.1
  *
  */
-public class EditActivity extends BaseActivity {
+public class EditActivity extends ConfirmableActivity
+{
 
-    final Context context = this;
-    private EditText t;
-    private File file;
-    private String filename;
-    private boolean textChanged = false;
+  final Context context = this;
 
-    /**
-     * Used to surround items in the edit field with the parameters set
-     *
-     * @param text
-     *            The characters to surround the text with
-     */
-    private void editTextHelper(String text) {
-        int start = t.getSelectionStart();
-        int end = t.getSelectionEnd();
 
-        t.getText().insert(end, text);
-        t.getText().insert(start, text);
-        t.setSelection(end + text.length());
-    }
+  private EditText t;
 
-    /**
-     * Used to help the initial setup of the UI. It adds <code>listener</code>s
-     * to all of the buttons in the text field bar
-     */
-    private void initButtons() {
-        final Button btn_tab = (Button) findViewById(R.id.btn_tab);
-        final Button btn_bold = (Button) findViewById(R.id.btn_bold);
-        final Button btn_italic = (Button) findViewById(R.id.btn_italic);
-        final Button btn_url = (Button) findViewById(R.id.btn_url);
-        final Button btn_code = (Button) findViewById(R.id.btn_code);
-        final Button btn_hash = (Button) findViewById(R.id.btn_hash);
 
-        btn_tab.setOnClickListener(new View.OnClickListener() {
+  private File file;
 
-            @Override
-            public void onClick(View v) {
-                int start = t.getSelectionStart();
-                int end = t.getSelectionEnd();
-                t.getText().replace(start, start, "\t");
-                t.setSelection(end + 1);
-            }
-        });
 
-        btn_bold.setOnClickListener(new View.OnClickListener() {
+  private String filename;
 
-            @Override
-            public void onClick(View v) {
-                editTextHelper("**");
-            }
-        });
 
-        btn_italic.setOnClickListener(new View.OnClickListener() {
+  private boolean textChanged = false;
 
-            @Override
-            public void onClick(View v) {
-                editTextHelper("_");
-            }
-        });
 
-        btn_hash.setOnClickListener(new View.OnClickListener() {
+  /**
+   * Used to surround items in the edit field with the parameters set
+   *
+   * @param text
+   *             The characters to surround the text with
+   */
+  private void editTextHelper (String text)
+  {
+    int start = t.getSelectionStart ();
+    int end = t.getSelectionEnd ();
 
-            @Override
-            public void onClick(View v) {
-                t.getText().insert(t.getSelectionStart(), "#");
-            }
-        });
+    t.getText ().insert (end, text);
+    t.getText ().insert (start, text);
+    t.setSelection (end + text.length ());
+  }
 
-        btn_url.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                // set up the text fields for entry
-                final EditText text = new EditText(context);
-                text.setHint(R.string.link_text_hint);
+  /**
+   * Used to help the initial setup of the UI. It adds <code>listener</code>s
+   * to all of the buttons in the text field bar
+   */
+  private void initButtons ()
+  {
+    final Button btn_tab = (Button)findViewById (R.id.btn_tab);
+    final Button btn_bold = (Button)findViewById (R.id.btn_bold);
+    final Button btn_italic = (Button)findViewById (R.id.btn_italic);
+    final Button btn_url = (Button)findViewById (R.id.btn_url);
+    final Button btn_code = (Button)findViewById (R.id.btn_code);
+    final Button btn_hash = (Button)findViewById (R.id.btn_hash);
 
-                // Switch off auto-suggest for this field
-                final EditText url = new EditText(context);
-                url.setHint(R.string.link_url_hint);
-                url.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                url.setOnFocusChangeListener(new OnFocusChangeListener() {
+    btn_tab.setOnClickListener (new View.OnClickListener ()
+    {
 
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        url.setText("http://");
-                        url.setSelection(url.getText().length() - 1);
-                    }
+      @Override
+      public void onClick (View v)
+      {
+        int start = t.getSelectionStart ();
+        int end = t.getSelectionEnd ();
+        t.getText ().replace (start, start, "\t");
+        t.setSelection (end + 1);
+      }
+    });
 
-                });
+    btn_bold.setOnClickListener (new View.OnClickListener ()
+    {
 
-                // build a view for this entry
-                LinearLayout layout = new LinearLayout(context);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.addView(text);
-                layout.addView(url);
+      @Override
+      public void onClick (View v)
+      {
+        editTextHelper ("**");
+      }
+    });
 
-                // get start and end selection points
-                final int start = t.getSelectionStart();
-                final int end = t.getSelectionEnd();
+    btn_italic.setOnClickListener (new View.OnClickListener ()
+    {
 
-                // build the dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(R.string.enter_url);
-                builder.setView(layout).setPositiveButton(R.string.ok,
-                        new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick (View v)
+      {
+        editTextHelper ("_");
+      }
+    });
 
-                    @Override
-                    public void onClick(DialogInterface dialog,
-                            int which) {
-                        t.getText().replace(
-                                start,
-                                end,
-                                "[" + text.getText() + "]("
-                                        + url.getText() + ")");
-                        t.setSelection(start + 4 + text.length()
-                                + url.length());
-                    }
-                });
+    btn_hash.setOnClickListener (new View.OnClickListener ()
+    {
 
-                // workaround to show keyboard
-                AlertDialog ad = builder.create();
-                ad.getWindow()
-                .setSoftInputMode(
-                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                ad.show();
+      @Override
+      public void onClick (View v)
+      {
+        t.getText ().insert (t.getSelectionStart (), "#");
+      }
+    });
 
-            }
-        });
+    btn_url.setOnClickListener (new View.OnClickListener ()
+    {
 
-        btn_code.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick (View v)
+      {
+        // set up the text fields for entry
+        final EditText text = new EditText (context);
+        text.setHint (R.string.link_text_hint);
 
-            @Override
-            public void onClick(View v) {
-                editTextHelper("`");
-            }
-        });
+        // Switch off auto-suggest for this field
+        final EditText url = new EditText (context);
+        url.setHint (R.string.link_url_hint);
+        url.setInputType (InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        url.setOnFocusChangeListener (new OnFocusChangeListener ()
+        {
 
-    }
-
-    /**
-     * Initialises the text area by adding a <code>listener</code> for when the
-     * contents are modified
-     */
-    private void initTextArea() {
-        t.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // do nothing
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                    int after) {
-                // do nothing
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before,
-                    int count) {
-                if (textChanged == false) {
-                    textChanged = true;
-                    setTitle("*" + getTitle());
-                }
-
-            }
+          @Override
+          public void onFocusChange (View v, boolean hasFocus)
+          {
+            url.setText ("http://");
+            url.setSelection (url.getText ().length () - 1);
+          }
 
         });
-    }
 
-    /**
-     * Called by the Android system when the activity is opened by an intent
-     *
-     * @param intent
-     *            The intent passed to the application
-     */
-    public void newIntent(Intent intent) {
-        setIntent(intent);
-    }
+        // build a view for this entry
+        LinearLayout layout = new LinearLayout (context);
+        layout.setOrientation (LinearLayout.VERTICAL);
+        layout.addView (text);
+        layout.addView (url);
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onCreate(android.os.Bundle)
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        // get start and end selection points
+        final int start = t.getSelectionStart ();
+        final int end = t.getSelectionEnd ();
 
-        setContentView(R.layout.activity_edit);
-        t = (EditText) findViewById(R.id.editTextArea);
+        // build the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder (context);
+        builder.setTitle (R.string.enter_url);
+        builder.setView (layout).setPositiveButton (R.string.ok,
+          new DialogInterface.OnClickListener ()
+          {
 
-        Intent intent = getIntent();
-        String scheme = intent.getScheme();
-        if (scheme.equals("content")) {
-            setTitle(R.string.dowloaded_content_title);
-        } else if (scheme.equals("file")) {
-            Uri uri = intent.getData();
-            file = new File(uri.getPath());
-            filename = file.getName();
-            setTitle(filename);
+            @Override
+            public void onClick (DialogInterface dialog,
+              int which)
+            {
+              t.getText ().replace (
+                start,
+                end,
+                "[" + text.getText () + "](" +
+                url.getText () + ")");
+              t.setSelection (start + 4 + text.length () +
+                url.length ());
+            }
+          });
+
+        // workaround to show keyboard
+        AlertDialog ad = builder.create ();
+        ad.getWindow ()
+          .setSoftInputMode (
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        ad.show ();
+
+      }
+    });
+
+    btn_code.setOnClickListener (new View.OnClickListener ()
+    {
+
+      @Override
+      public void onClick (View v)
+      {
+        editTextHelper ("`");
+      }
+    });
+
+  }
+
+
+  /**
+   * Initialises the text area by adding a <code>listener</code> for when the
+   * contents are modified
+   */
+  private void initTextArea ()
+  {
+    t.addTextChangedListener (new TextWatcher ()
+    {
+
+      @Override
+      public void afterTextChanged (Editable s)
+      {
+        // do nothing
+      }
+
+
+      @Override
+      public void beforeTextChanged (CharSequence s, int start, int count,
+        int after)
+      {
+        // do nothing
+      }
+
+
+      @Override
+      public void onTextChanged (CharSequence s, int start, int before,
+        int count)
+      {
+        if (!textChanged)
+        {
+          textChanged = true;
+          setTitle ("*" + getTitle ());
         }
-        readInData(intent);
 
-        initTextArea();
-        initButtons();
+      }
 
-        // Don't show the application icon
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
+    });
+  }
+
+
+  /**
+   * Called by the Android system when the activity is opened by an intent
+   *
+   * @param intent
+   *               The intent passed to the application
+   */
+  public void newIntent (Intent intent)
+  {
+    setIntent (intent);
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see android.app.Activity#onCreate(android.os.Bundle)
+   */
+
+  @Override
+  protected void onCreate (Bundle savedInstanceState)
+  {
+    super.onCreate (savedInstanceState);
+
+    setContentView (R.layout.activity_edit);
+    t = (EditText)findViewById (R.id.editTextArea);
+
+    Intent intent = getIntent ();
+    String scheme = intent.getScheme ();
+    if (scheme.equals ("content"))
+    {
+      setTitle (R.string.dowloaded_content_title);
     }
+    else
+      if (scheme.equals ("file"))
+      {
+        Uri uri = intent.getData ();
+        file = new File (uri.getPath ());
+        filename = file.getName ();
+        setTitle (filename);
+      }
+    readInData (intent);
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_edit, menu);
-        return true;
+    initTextArea ();
+    initButtons ();
+
+    // Don't show the application icon
+    getActionBar ().setDisplayOptions (ActionBar.DISPLAY_SHOW_TITLE);
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+   */
+
+  @Override
+  public boolean onCreateOptionsMenu (Menu menu)
+  {
+    getMenuInflater ().inflate (R.menu.activity_edit, menu);
+    return true;
+  }
+
+
+  /**
+   * Responds to a menu press
+   *
+   * @param item selected menu item
+   *
+   * @return
+   * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+   */
+  @Override
+  public boolean onOptionsItemSelected (MenuItem item)
+  {
+    switch (item.getItemId ())
+    {
+
+      case R.id.menu_done:
+        changesConfirmed = true;
+        finish ();
+        break;
+
+      default:
+        return super.onOptionsItemSelected (item);
     }
+    return true;
+  }
 
-    /**
-     * Responds to a menu press
-     *
-     * @param item    selected menu item
-     * 
-     * @return 
-     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
-        case R.id.menu_done:
-            if (textChanged) {
-              Intent data = new Intent();
-              data.setData(getIntent().getData());
-              data.putExtra("text", t.getText().toString());
-              setResult(RESULT_OK, data);
-            } else {
-              setResult(RESULT_CANCELED);
-            }
-            finish();
-            break;
-
-        default:
-            return super.onOptionsItemSelected(item);
+  /**
+   * Reads in the data from the intent and displays it in the text area
+   *
+   * @param intent
+   *               The intent passed to the activity
+   */
+  private void readInData (Intent intent)
+  {
+    String result = new String ();
+    if (intent.getExtras () != null && intent.getExtras ().containsKey ("text"))
+    {
+      result = intent.getExtras ().getString ("text");
+    }
+    else
+    {
+      try
+      {
+        InputStream in = getContentResolver ().openInputStream (
+          intent.getData ());
+        BufferedReader reader = new BufferedReader (
+          new InputStreamReader (in));
+        String line = reader.readLine ();
+        while (line != null)
+        {
+          result += "\n" + line;
+          line = reader.readLine ();
         }
-        return true;
+      }
+      catch (FileNotFoundException e)
+      {
+
+      }
+      catch (IOException e)
+      {
+
+      }
     }
+    t.setText (result);
+  }
 
-    /**
-     * Reads in the data from the intent and displays it in the text area
-     *
-     * @param intent
-     *            The intent passed to the activity
-     */
-    private void readInData(Intent intent) {
-        String result = new String();
-        if (intent.getExtras() != null && intent.getExtras().containsKey("text")) {
-            result = intent.getExtras().getString("text");
-        } else {
-            try {
-                InputStream in = getContentResolver().openInputStream(
-                        intent.getData());
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(in));
-                String line = reader.readLine();
-                while (line != null) {
-                    result += "\n" + line;
-                    line = reader.readLine();
-                }
-            } catch (FileNotFoundException e) {
 
-            } catch (IOException e) {
-
-            }
+  /**
+   * Overrides the finish function to ensure that the changes in edit text
+   * have been saved
+   */
+  @Override
+  public void finish ()
+  {
+    if (textChanged)
+    {
+      if (changesConfirmed == null)
+        confirmChangesDialog ();
+      else
+      {
+        if (changesConfirmed)
+        {
+          Intent data = new Intent ();
+          data.setData (getIntent ().getData ());
+          data.putExtra ("text", t.getText ().toString ());
+          setResult (RESULT_OK, data);
         }
-        t.setText(result);
+        else
+          setResult (RESULT_CANCELED);
+
+        super.finish ();
+      }
     }
-
-    /**
-     * Overrides the finish function to ensure that the changes in edit text
-     * have been saved
-     */
-    @Override
-    public void finish() {
-        if (textChanged == true) {
-            AlertDialog.Builder adb = new AlertDialog.Builder(context);
-            adb.setTitle(R.string.save_changes_title);
-            adb.setMessage(R.string.save_changes_message)
-               .setNegativeButton(R.string.no,
-                    new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog,
-                        int which) {
-                    textChanged = false; // to stop endless loop
-                    finish();
-                }
-            })
-            .setPositiveButton(R.string.yes,
-                    new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog,
-                        int which) {
-                  ; // stay in activity
-                }
-            }).show();
-        } else {
-            super.finish();
-        }
-    }
+    else
+      super.finish ();
+  }
 }

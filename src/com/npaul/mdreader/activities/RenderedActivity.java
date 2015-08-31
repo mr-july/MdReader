@@ -60,7 +60,7 @@ import static com.npaul.mdreader.activities.PreferencesActivity.
  * @author Nathan Paul
  * @version 1.1
  */
-public class RenderedActivity extends BaseActivity {
+public class RenderedActivity extends ConfirmableActivity {
 
     /**
      * The renderer renders the markdown asynchronously to the main thread
@@ -178,7 +178,6 @@ public class RenderedActivity extends BaseActivity {
     private String filename;
     String text = new String();
     private boolean textChanged = false;
-    private boolean exitOnSave;
 
     /*
      * (non-Javadoc)
@@ -249,11 +248,7 @@ public class RenderedActivity extends BaseActivity {
             break;
 
         case R.id.menu_save:
-            if (file != null) {
-                saveFile(file);
-            } else {
-                saveAsCopy();
-            }
+            save ();
             break;
 
         case R.id.menu_saveAs:
@@ -266,6 +261,19 @@ public class RenderedActivity extends BaseActivity {
             break;
         }
         return true;
+    }
+
+
+    /**
+     * save current text
+     */
+    protected void save ()
+    {
+      if (file != null) {
+        saveFile(file);
+      } else {
+        saveAsCopy();
+      }
     }
 
     /**
@@ -302,38 +310,24 @@ public class RenderedActivity extends BaseActivity {
      * have been saved
      */
     @Override
-    public void finish() {
-        if (textChanged == true) {
-            AlertDialog.Builder adb = new AlertDialog.Builder(context);
-            adb.setTitle(R.string.save_changes_title);
-            adb.setMessage(R.string.save_changes_message)
-               .setNegativeButton(R.string.no,
-                    new DialogInterface.OnClickListener() {
+    public void finish ()
+    {
+      if (textChanged)
+      {
+        if (changesConfirmed == null)
+          confirmChangesDialog ();
+        else
+        {
+          if (changesConfirmed)
+            save ();
 
-                @Override
-                public void onClick(DialogInterface dialog,
-                        int which) {
-                    textChanged = false; // to stop endless loop
-                    finish();
-                }
-            })
-            .setPositiveButton(R.string.yes,
-                    new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog,
-                        int which) {
-                    exitOnSave = true; // set this because all
-                    // UI is run
-                    // asynchronously
-                    saveAsCopy();
-                }
-            }).show();
-        } else {
-            super.finish();
+          super.finish ();
         }
+      }
+      else
+        super.finish ();
     }
-
+    
     /**
      * Returns contents, as CharSequence, otherwise will return
      * <code>null</code>
@@ -427,9 +421,7 @@ public class RenderedActivity extends BaseActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                exitOnSave = false;
-                // otherwise this would cause a bug where the
-                // editActivity closed when the user hit "Save" next
+              changesConfirmed = false;
             }
         });
 
@@ -465,9 +457,6 @@ public class RenderedActivity extends BaseActivity {
                     String.format(getString(R.string.saved_as_info),
                                   file.getAbsolutePath()),
                     Toast.LENGTH_LONG).show();
-            if (exitOnSave) {
-                finish();
-            }
         }
     }
 
